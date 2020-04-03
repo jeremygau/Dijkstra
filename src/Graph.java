@@ -7,15 +7,24 @@ public class Graph {
     int summitsNumber;
     int edgeNumber;
     double density; // nb arrete existants / nb arretes possible n(n-1)
+    List<Integer> summits;
     List<List<Integer>> neighbours;
 
     public Graph(int summitsNumber, double density) {
         this.summitsNumber = summitsNumber;
         this.edgeNumber = 0;
         this.density = density;
-        neighbours = new ArrayList<>();
+        this.summits = new ArrayList<>();
+
+        this.neighbours = new ArrayList<>();
         fillNeighbours();
         createEdges();
+    }
+
+    private void fillSummits() {
+        for (int i = 0; i < summitsNumber; i++) {
+            summits.add(i);
+        }
     }
 
     private void fillNeighbours() {
@@ -54,12 +63,14 @@ public class Graph {
     }
 
     public int[] dijkstra(Graph G, int s) {
-        int[] F = new int[summitsNumber];
-        for (int i = 0; i < summitsNumber; i++) {
-            F[i] = i;
+        int[] d = new int[summitsNumber];
+        List<Integer> F = new ArrayList<>(summits);
+        for (Integer summit : F) {
+            d[summit] = Integer.MAX_VALUE;
         }
+        d[s] = 0;
 
 
-        return F;
+        return d;
     }
 }
