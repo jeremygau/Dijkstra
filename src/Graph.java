@@ -4,21 +4,30 @@ import java.util.Random;
 
 public class Graph {
 
-    int summitsNumber;
-    int edgeNumber;
-    double density; // nb arrete existants / nb arretes possible n(n-1)
-    List<Integer> summits;
-    List<List<Integer>> neighbours;
+    private int summitsNumber;
+    private int edgeNumber;
+    private double density; // nb arrete existants / nb arretes possible n(n-1)
+    private List<Integer> summits;
+    private List<List<Integer>> neighbours;
+    private List<Edge> edges;
 
     public Graph(int summitsNumber, double density) {
         this.summitsNumber = summitsNumber;
         this.edgeNumber = 0;
         this.density = density;
         this.summits = new ArrayList<>();
-        fillSummits();
+        this.edges = new ArrayList<>();
         this.neighbours = new ArrayList<>();
+        fillSummits();
         fillNeighbours();
         createEdges();
+    }
+
+    public Graph(List<Integer> summits) {
+        this.summitsNumber = summits.size();
+        this.edgeNumber = 0;
+        this.summits = summits;
+        this.edges = new ArrayList<>();
     }
 
     private void fillSummits() {
@@ -39,6 +48,10 @@ public class Graph {
         }
     }
 
+    public void addEdge(Integer from, Integer to, int weight) {
+        edges.add(new Edge(from, to, weight));
+    }
+
     private void addNeighbour() {
         Random random = new Random();
         int summitA;
@@ -50,6 +63,7 @@ public class Graph {
         while (summitA == summitB);
         if (!edgeExists(summitA, summitB)) {
             neighbours.get(summitA).add(summitB);
+            addEdge(summitA, summitB, 1);
             edgeNumber++;
         }
     }
@@ -62,59 +76,23 @@ public class Graph {
         return neighbours;
     }
 
-  /*  public List<Integer> dijkstra(Graph G, int s) {
-        List<Integer> d = new ArrayList<>();
-        List<Integer> F = new ArrayList<>(summits);
-        for (Integer summit : F) {
-            d.add(Integer.MAX_VALUE - 1);
-        }
-        d.set(s, 0);
-        while (!F.isEmpty()) {
-            int u = extractMin(F,d);
-            for (int v : neighbours.get(u)) {
-                if (d.get(v) > d.get(u) + 1) {
-                    d.set(v, d.get(u) + 1);
-                }
-            }
-        }
-        return d;
-    }
-*/
-    public int[] dijkstra(Graph G, int s) {
-        int[] d = new int[summitsNumber];
-        List<Integer> F = new ArrayList<>(summits);
-        for (Integer summit : F) {
-            d[summit] = Integer.MAX_VALUE - 1;
-        }
-        d[s] = 0;
-        while (!F.isEmpty()) {
-            int u = extractMin(F,d);
-            for (int v : neighbours.get(u)) {
-                if (d[v] > d[u] + 1) {
-                    d[v] = d[u] + 1;
-                }
-            }
-        }
-        return d;
+    public int getSummitsNumber() {
+        return summitsNumber;
     }
 
-/*    public int extractMin(List<Integer> F, List<Integer> d) {
-        Integer vMin = F.get(0);
-        for(Integer summit : F) {
-            if(!summit.equals(vMin) && d.get(vMin) > d.get(summit)) vMin = summit;
-        }
-        F.remove(vMin);
-        return vMin;
-    }*/
+    public int getEdgeNumber() {
+        return edgeNumber;
+    }
 
-    public int extractMin(List<Integer> F, int[] d) {
-        Integer vMin = F.get(0);
-        for(Integer summit : F) {
-            if(!summit.equals(vMin) && d[vMin] > d[summit]) vMin = summit;
-        }
-        F.set(F.indexOf(vMin), F.get(F.size()-1));
-        F.set(F.size()-1, vMin);
-        F.remove(F.size()-1);
-        return vMin;
+    public double getDensity() {
+        return density;
+    }
+
+    public List<Integer> getSummits() {
+        return summits;
+    }
+
+    public List<Edge> getEdges() {
+        return edges;
     }
 }
