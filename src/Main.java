@@ -5,24 +5,28 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        Graph graph = new Graph(4, 0.5);
+        Graph graph = new Graph(17, 0.5);
         System.out.println(graph.getNeighbours());
         System.out.println(graph.getEdges()+ "\n");
+        long before = System.currentTimeMillis();
         for (Integer summit : graph.getSummits()) {
-//            System.out.println(graph.dijkstra(graph, summit));
-//            System.out.println("dij");
-            System.out.println(Arrays.toString(Dijkstra.solve(graph, summit)));
-//            System.out.println();
-//            System.out.println("prio");
-            System.out.println(Arrays.toString(PriorityQ.solve(graph, summit)));
-//            System.out.println();
+//            System.out.println(Arrays.toString(Dijkstra.solve(graph, summit)));
+            Dijkstra.solve(graph, summit);
         }
-        System.out.println();
+        System.out.println(System.currentTimeMillis() - before);
+
+        before = System.currentTimeMillis();
+        for (Integer summit : graph.getSummits()) {
+//            System.out.println(Arrays.toString(PriorityQ.solve(graph, summit)));
+            PriorityQ.solve(graph, summit);
+        }
+        System.out.println(System.currentTimeMillis() - before);
+        /*System.out.println();
         int[][] res = FloydWarshall.solve(graph);
         for (int[] re : res) {
             System.out.println(Arrays.toString(re));
         }
-        System.out.println(graph.getDensity());
+        System.out.println(graph.getDensity());*/
         /*System.out.println();
         List<Integer> graph1Summits = new ArrayList<>(Arrays.asList(0,1,2,3,4,5));
         Graph graph1 = new Graph(graph1Summits);

@@ -9,7 +9,7 @@ public class PriorityQ {
         List<Integer> S = new ArrayList<>(G.getSummits());
         PriorityQueue<Edge> F = new PriorityQueue<>();
         for (Integer summit : S) {
-            d[summit] = Integer.MAX_VALUE - 1;
+            d[summit] = Integer.MAX_VALUE / 4;
         }
         d[s] = 0;
         fillQueue(F, G, s);

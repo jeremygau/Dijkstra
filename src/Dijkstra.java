@@ -7,14 +7,14 @@ public class Dijkstra {
         int[] d = new int[G.getSummitsNumber()];
         List<Integer> F = new ArrayList<>(G.getSummits());
         for (Integer summit : F) {
-            d[summit] = Integer.MAX_VALUE - 1;
+            d[summit] = Integer.MAX_VALUE / 4;
         }
         d[s] = 0;
         while (!F.isEmpty()) {
             int u = extractMin(F,d);
-            for (Integer v : G.getNeighbours().get(u)) {
-                if (d[v] > d[u] + 1) {
-                    d[v] = d[u] + 1;
+            for (Neighbour v : G.getNeighbours().get(u)) {
+                if (d[v.getSummit()] > d[u] + v.getWeight()) {
+                    d[v.getSummit()] = d[u] + v.getWeight();
                 }
             }
         }

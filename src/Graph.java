@@ -8,8 +8,9 @@ public class Graph {
     private int edgeNumber;
     private double density; // nb arrete existants / nb arretes possible n(n-1)
     private List<Integer> summits;
-    private List<List<Integer>> neighbours;
+    private List<List<Neighbour>> neighbours;
     private List<Edge> edges;
+    private Random random = new Random();
 
     public Graph(int summitsNumber, double density) {
         this.summitsNumber = summitsNumber;
@@ -53,7 +54,6 @@ public class Graph {
     }
 
     private void addNeighbour() {
-        Random random = new Random();
         int summitA;
         int summitB;
         do {
@@ -62,20 +62,24 @@ public class Graph {
         }
         while (summitA == summitB);
         if (!edgeExists(summitA, summitB)) {
-            neighbours.get(summitA).add(summitB);
             Random random1 = new Random();
             int weight = random1.nextInt(10);
-//            int weight = 1;
+            neighbours.get(summitA).add(new Neighbour(summitB, weight));
             addEdge(summitA, summitB, weight);
             edgeNumber++;
         }
     }
 
     public boolean edgeExists(int summitA, int summitB) {
-        return neighbours.get(summitA).contains(summitB);
+        for (Neighbour neighbour : neighbours.get(summitA)) {
+            if (neighbour.getSummit().equals(summitB)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public List<List<Integer>> getNeighbours() {
+    public List<List<Neighbour>> getNeighbours() {
         return neighbours;
     }
 
