@@ -18,6 +18,6 @@ public class Neighbour {
 
     @Override
     public String toString() {
-        return '<' + summit + ", " + weight + '>';
+        return "<" + summit + ", " + weight + ">";
     }
 }
