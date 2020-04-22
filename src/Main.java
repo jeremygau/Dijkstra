@@ -9,9 +9,14 @@ public class Main {
         System.out.println(graph.getNeighbours() + "\n");
         for (Integer summit : graph.getSummits()) {
 //            System.out.println(graph.dijkstra(graph, summit));
+//            System.out.println("dij");
             System.out.println(Arrays.toString(Dijkstra.solve(graph, summit)));
+//            System.out.println();
+//            System.out.println("prio");
+            System.out.println(Arrays.toString(PriorityQ.solve(graph, summit)));
+//            System.out.println();
         }
-        System.out.println();
+/*        System.out.println();
         List<Integer> graph1Summits = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
         Graph graph1 = new Graph(graph1Summits);
         graph1.addEdge(1, 2, 12);
@@ -31,6 +36,6 @@ public class Main {
         for (int[] re : res) {
             System.out.println(Arrays.toString(re));
         }
-        System.out.println(graph1.getDensity());
+        System.out.println(graph1.getDensity());*/
     }
 }

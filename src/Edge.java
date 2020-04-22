@@ -1,4 +1,4 @@
-public class Edge {
+public class Edge implements Comparable {
 
     private Integer from;
     private Integer to;
@@ -20,5 +20,20 @@ public class Edge {
 
     public int getWeight() {
         return weight;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Edge e = (Edge) o;
+        return this.weight - e.getWeight();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                from +
+                " -> " + to +
+                ", " + weight +
+                '}';
     }
 }
