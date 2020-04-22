@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FloydWarshall {
@@ -14,7 +15,7 @@ public class FloydWarshall {
         }
         //remplissage avec valeur des edges
         for(Edge edge : graph.getEdges()) {
-            d[edge.getFrom()-1][edge.getTo()-1] = edge.getWeight();
+            d[edge.getFrom()][edge.getTo()] = edge.getWeight();
         }
         //début du o(n^3)
         for(int k = 0; k < graph.getSummitsNumber(); k++) {

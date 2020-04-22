@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -13,34 +12,26 @@ public class PriorityQ {
             d[summit] = Integer.MAX_VALUE - 1;
         }
         d[s] = 0;
-        //remplir la PQ
-        for (int from = 0; from < G.getSummitsNumber(); from++) {
-//        int from = s;
-            for (int to = 0; to < G.getNeighbours().get(from).size(); to++) {
-                F.add(new Edge(from, G.getNeighbours().get(from).get(to), 1));
-            }
-        }
+        fillQueue(F, G, s);
         while (!F.isEmpty()) {
             Edge edge = F.poll();
             int v = edge.getTo();
             int u = edge.getFrom();
-//            int u = s;
-//            System.out.println(Arrays.toString(d));
-            if (d[v] > d[u] + 1 && d[u] < Integer.MAX_VALUE - 1) {
-                d[v] = d[u] + 1;
+            int w = edge.getWeight();
+            if (d[v] > d[u] + w) {
+                d[v] = d[u] + w;
+                fillQueue(F, G, v);
             }
-            else {
-                F.add(edge);
-            }
-
-//            int u = s;
-//            for (Integer v : G.getNeighbours().get(u)) {
-//                if (d[v] > d[u] + 1) {
-//                    d[v] = d[u] + 1;
-//                }
-//            }
         }
         return d;
+    }
+
+    private static void fillQueue(PriorityQueue<Edge> F, Graph G, Integer from) {
+        for (Edge edge : G.getEdges()) {
+            if (edge.getFrom().equals(from)) {
+                F.add(edge);
+            }
+        }
     }
 
 }

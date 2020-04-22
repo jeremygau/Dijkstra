@@ -63,9 +63,9 @@ public class Graph {
         while (summitA == summitB);
         if (!edgeExists(summitA, summitB)) {
             neighbours.get(summitA).add(summitB);
-          /*  Random random1 = new Random();
-            int weight = random1.nextInt(10);*/
-            int weight = 1;
+            Random random1 = new Random();
+            int weight = random1.nextInt(10);
+//            int weight = 1;
             addEdge(summitA, summitB, weight);
             edgeNumber++;
         }
