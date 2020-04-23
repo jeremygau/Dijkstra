@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -6,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        test();
+        compare();
 
     }
 
@@ -24,28 +25,38 @@ public class Main {
     }
 
     public static void compare() {
-        int nb = 1;
-        long antes = System.currentTimeMillis();
-        int moyenneSeq = 0;
-        int moyenneprio = 0;
-        for (int i = 0; i < nb; i++) {
-            Graph graph = new Graph(100, 0.1);
-            System.out.println(graph.getNeighbours());
-            System.out.println(graph.getEdges()+ "\n");
-            long before = System.currentTimeMillis();
-            for (Integer summit : graph.getSummits()) {
-                Dijkstra.solve(graph, summit);
+        int repetitions = 100;
+        int taille_min = 10;
+        int taille_max = 50;
+        int pas = 1;
+        Courbe courbeSeq = new Courbe();
+        Courbe courbePrio = new Courbe();
+        for (int size = taille_min; size <= taille_max; size += pas) {
+            System.out.println(size);
+            int moyenneSeq = 0;
+            int moyenneprio = 0;
+            for (int j = 0; j < repetitions; j++) {
+                Graph graph = new Graph(size, 0.1);
+//                System.out.println(graph.getNeighbours());
+//                System.out.println(graph.getEdges() + "\n");
+                long before = System.currentTimeMillis();
+                for (Integer summit : graph.getSummits()) {
+                    Dijkstra.solve(graph, summit);
+                }
+                moyenneSeq += System.currentTimeMillis() - before;
+                before = System.currentTimeMillis();
+                for (Integer summit : graph.getSummits()) {
+                    PriorityQ.solve(graph, summit);
+                }
+                moyenneprio += System.currentTimeMillis() - before;
             }
-            moyenneSeq += System.currentTimeMillis() - before;
-            before = System.currentTimeMillis();
-            for (Integer summit : graph.getSummits()) {
-                PriorityQ.solve(graph, summit);
-            }
-            moyenneprio += System.currentTimeMillis() - before;
+//            System.out.println("moyenne sequentielle : " + moyenneSeq / repetitions);
+//            System.out.println("moyenne Priority : " + moyenneprio / repetitions);
+            courbeSeq.ajouterPoint(new Point(size, moyenneSeq));
+            courbePrio.ajouterPoint(new Point(size, moyenneprio));
         }
-        System.out.println(System.currentTimeMillis() - antes);
-        System.out.println("moyenne sequentielle : " + moyenneSeq / nb);
-        System.out.println("moyenne Priority : " + moyenneprio / nb);
+        Traceur traceur = new Traceur("Sequentielle", courbeSeq);
+        Traceur traceur1 = new Traceur("PriorityQueue", courbePrio);
     }
 
     public static void floyd() {
